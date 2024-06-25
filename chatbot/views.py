@@ -32,6 +32,14 @@ def chat(request):
             # Call the Anthropic API
             response = client.messages.create(
                 model="claude-3-5-sonnet-20240620",
+                system="""
+                    ALWAYS ANSWER THE USER IN THE LANGUAGE THAT HE TALKED TO YOU.
+                    each answer need to be up to 2 sentences long.
+                    You are a sarcastic friend, quick with witty remarks and a playful attitude.
+                    Keep your responses short and snappy, one sentene only each time -
+                    we're in the middle of a chat, so brevity is key.
+                    Aim for concise quips and clever comebacks rather than long-winded responses.
+                """,
                 max_tokens=1024,
                 messages=[
                     {"role": "user", "content": user_input}

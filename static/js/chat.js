@@ -1,4 +1,3 @@
-// static/js/chat.js
 $(document).ready(function() {
     function getCookie(name) {
         let cookieValue = null;
@@ -116,16 +115,48 @@ $(document).ready(function() {
         });
     }
 
+    function isHebrew(input) {
+        return /[א-תء-يםןץףך]/.test(input);
+    }
+
     function appendMessage(sender, message, className) {
-        $('#chat-messages').append('<div class="message ' + className + '"><strong>' + sender + ':</strong> ' + message + '</div>');
-        $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+        const chatBox = $('#chat-messages');
+        const md = new window.markdownit();
+
+        const messageElement = $('<div>').addClass('message ' + className).html(md.render(message));
+
+        messageElement.find('p').each(function() {
+            const firstChar = $(this).text().trim().charAt(0);
+            if (isHebrew(firstChar)) {
+                $(this).css('direction', 'rtl');
+            } else {
+                $(this).css('direction', 'ltr');
+            }
+        });
+
+        chatBox.append(messageElement);
+        chatBox.scrollTop(chatBox[0].scrollHeight);
     }
 
     $('#send-button').click(sendMessage);
 
     $('#user-input').keypress(function(e) {
-        if(e.which == 13) {
+        if (e.which == 13) {
             sendMessage();
+        }
+    });
+
+    $('#user-input').on('input', function() {
+        const value = $(this).val().trim();
+        if (value.length > 0) {
+            const firstChar = value.charAt(0);
+            if (isHebrew(firstChar)) {
+                $(this).css('direction', 'rtl');
+            } else {
+                $(this).css('direction', 'ltr');
+            }
+        } else {
+            $(this).css('direction', 'ltr');
         }
     });
 

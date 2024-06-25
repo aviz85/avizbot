@@ -55,14 +55,17 @@ body {
 
 .message {
     max-width: 70%;
-    padding: 10px 15px;
+    padding: 10px 10px;
     margin-bottom: 10px;
     border-radius: 18px;
     line-height: 1.4;
     word-wrap: break-word;
     display: inline-block;
 }
-
+.message p{
+    margin-top: 0px;
+    margin-bottom: 0px
+}
 .user-message {
     align-self: flex-end;
     background-color: #0084ff;

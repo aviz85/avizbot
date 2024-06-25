@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% trans "AvizBot Chat" %}</title>
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/background-animation.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.6/markdown-it.min.js"></script>
     <script src="{% static 'js/chat.js' %}"></script>
 </head>
 <body>
+    <div class="background-animation"></div>
     {% csrf_token %}
     <div id="language-switcher">
         <form action="{% url 'set_language' %}" method="post">
@@ -34,7 +36,6 @@
         </form>
         <p id="login-error" style="color: red;"></p>
     </div>
-
     <div id="chat-container" {% if not user.is_authenticated %}style="display: none;"{% endif %}>
         <div class="chat-header">
             <h1>{% trans "AvizBot Chat" %}</h1>
@@ -46,5 +47,6 @@
             <button id="send-button">{% trans "Send" %}</button>
         </div>
     </div>
+    <script src="{% static 'js/background-animation.js' %}"></script>
 </body>
 </html>

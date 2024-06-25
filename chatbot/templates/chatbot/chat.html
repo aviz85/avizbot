@@ -1,0 +1,49 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "AvizBot Chat" %}</title>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+</head>
+<body>
+    {% csrf_token %}
+    <div id="language-switcher">
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.path }}">
+            <button type="submit" name="language" value="en" class="lang-button">
+                <img src="{% static 'img/en-flag.png' %}" alt="English" title="Switch to English">
+            </button>
+            <button type="submit" name="language" value="he" class="lang-button">
+                <img src="{% static 'img/he-flag.png' %}" alt="Hebrew" title="Switch to Hebrew">
+            </button>
+        </form>
+    </div>
+    <div id="login-container" {% if user.is_authenticated %}style="display: none;"{% endif %}>
+        <h2>{% trans "Login to AvizBot Chat" %}</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="{% trans 'Username' %}" required>
+            <input type="password" id="password" placeholder="{% trans 'Password' %}" required>
+            <button type="submit">{% trans "Login" %}</button>
+        </form>
+        <p id="login-error" style="color: red;"></p>
+    </div>
+
+    <div id="chat-container" {% if not user.is_authenticated %}style="display: none;"{% endif %}>
+        <div class="chat-header">
+            <h1>{% trans "AvizBot Chat" %}</h1>
+            <button id="logout-button">{% trans "Logout" %}</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="{% trans 'Type your message...' %}">
+            <button id="send-button">{% trans "Send" %}</button>
+        </div>
+    </div>
+</body>
+</html>
